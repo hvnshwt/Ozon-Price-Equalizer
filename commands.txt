@@ -1,0 +1,4 @@
+cd C:\Users\Misha\Desktop\OBNALLtd\ozon_stabilizer
+pyuic5 window.ui -o window.py
+pyinstaller --onefile --windowed main.py --name "Ozon Price Equalizer"
+pyinstaller --onefile --windowed --icon=ozon_logo.ico --add-data="ozon_logo.ico;." main.py --name "Ozon Price Equalizer"
