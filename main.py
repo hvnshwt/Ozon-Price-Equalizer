@@ -14,7 +14,7 @@ from config_manger import ConfigManager
 from PyQt5 import QtCore, QtWidgets, QtGui, Qt
 from PyQt5.QtCore import QIODevice, QTimer
 # from PyQt5.QtWidgets import QTableWidgetSelectionRange, QMessageBox, QFileDialog, QStyle
-from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QTableWidget, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QTableWidget, QApplication, QTableWidgetItem, QHeaderView
 
 import window
 
@@ -42,6 +42,10 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         self.start_btn.clicked.connect(self.start)
         self.detailed_products = None
         self.tableWidget.setColumnWidth(0, 65)
+        header = self.tableWidget.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
         self.tracked_products = {}
         self.is_update_running = False
         self.is_running = False
@@ -373,7 +377,7 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         else:
             header_text = "Статус (Все)"
 
-            # 2. Создаем новый элемент для заголовка с этим текстом
+        # 2. Создаем новый элемент для заголовка с этим текстом
         status_header_item = QtWidgets.QTableWidgetItem(header_text)
 
         # 3. Устанавливаем этот новый элемент в качестве заголовка для нашего столбца
