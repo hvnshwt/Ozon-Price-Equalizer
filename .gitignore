@@ -8,6 +8,7 @@ __pycache__/
 
 # My own exceptions
 shops.txt
+main_copy.py
 
 # Distribution / packaging
 .Python
