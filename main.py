@@ -205,7 +205,14 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                     # Обновляем ячейку с ценой в таблице
                     new_price = new_data.get('price', 'Цена не найдена')
                     marketing_price = new_data.get('marketing_price', 'Цена не найдена')
-                    if marketing_price == '':
+                    
+                    try:
+                        new_price = float(new_price)
+                    except ValueError as e:
+                        continue
+                    try:
+                        marketing_price = float(marketing_price)
+                    except ValueError as e:
                         marketing_price = new_price
 
                     self.tableWidget.item(row, 4).setText(
@@ -223,9 +230,18 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             for offer_id, old_price in old_tracked_prices.items():
                 new_data = next((p for p in new_products_list if p.get('offer_id') == offer_id), None)
                 if new_data:
-                    new_price = float(new_data.get('price', 'Цена не найдена'))
-                    new_marketing_price = float(new_data.get('marketing_price', 'Цена не найдена'))
+                    
+                    try:
+                        new_price = float(new_data.get('price', 'Цена не найдена'))
+                    except ValueError as e:
+                        continue
+                    try:
+                        new_marketing_price = float(new_data.get('marketing_price', 'Цена не найдена'))
+                    except ValueError as e:
+                        new_marketing_price = new_price
+                        
                     current_product_prices[offer_id] = [new_price, new_marketing_price]
+                        
                     # Также обновляем данные в нашем словаре отслеживаемых товаров
                     # self.tracked_products[offer_id] = new_data
 
@@ -403,8 +419,18 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                 name = product.get('name', 'Название не найдено')
                 price = product.get('price', 'Цена не найдена')
                 marketing_price = product.get('marketing_price', 'Маркетинговая цена не найдена')
-                if marketing_price == '':
+                
+                # Обработка ошибок "Цена не найдена"
+                try:
+                    price = float(price)
+                except ValueError as e:
+                    continue
+                try:
+                    marketing_price = float(marketing_price)
+                except ValueError as e:
                     marketing_price = price
+                
+                
                 status = product.get('statuses', {}).get('status_description', 'Статус не найден')
                 if status == '':
                     status = 'Продается'
